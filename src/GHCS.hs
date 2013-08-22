@@ -14,7 +14,7 @@ import System.Posix.Files
 
 import System.Process
 
-#if ! defined(mingw32_HOST_OS) || defined(__MINGW32__)
+#if ! ( defined(mingw32_HOST_OS) || defined(__MINGW32__) )
 getMTime f = getFileStatus f >>= return . modificationTime
 #endif
 
