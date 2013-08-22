@@ -1,0 +1,15 @@
+name: GHCS
+version: 0.0.1
+license: BSD3
+
+build-type: Simple
+cabal-version: >= 1.6
+
+Executable    GHCS
+  Main-Is:    GHCS.hs
+  Hs-Source-Dirs: src
+  Extensions: UnicodeSyntax
+  Build-Depends:
+      base
+    , process
+    , directory
