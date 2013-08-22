@@ -7,14 +7,12 @@ import System.Exit
 import System.Directory
 import System.IO
 
-#if ! ( defined(mingw32_HOST_OS) || defined(__MINGW32__) )
-import System.Posix.Process
-import System.Posix.Files
-#endif
-
 import System.Process
 
 #if ! ( defined(mingw32_HOST_OS) || defined(__MINGW32__) )
+import System.Posix.Process
+import System.Posix.Files
+
 getMTime f = getFileStatus f >>= return . modificationTime
 #endif
 
