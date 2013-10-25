@@ -1,4 +1,4 @@
-﻿{-# LANGUAGE UnicodeSyntax, CPP #-}
+﻿{-# LANGUAGE CPP #-}
 
 import Control.Monad
 
@@ -36,10 +36,10 @@ main = do
     when compile $ do
          r <- system $ "ghc --make " ++ scr
          case r of
-           ExitFailure i → do
+           ExitFailure i -> do
                    hPutStrLn stderr $ "'ghc --make " ++ scr ++ "' failed: " ++ show i
                    exitFailure
-           ExitSuccess → return ()
+           ExitSuccess -> return ()
            
 #if defined(mingw32_HOST_OS) || defined(__MINGW32__)
     pid <- runCommand cscr

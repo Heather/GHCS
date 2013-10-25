@@ -8,7 +8,7 @@ cabal-version: >= 1.6
 Executable    GHCS
   Main-Is:    GHCS.hs
   Hs-Source-Dirs: src
-  Extensions: UnicodeSyntax
+
   Build-Depends:
       base
     , process
