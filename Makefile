@@ -6,7 +6,7 @@ all_win32:  clean | win32
 win32: dosed | GHCS
 
 dosed:
-    mv GHCS.cabal GHCS.cabal_backup
+	mv GHCS.cabal GHCS.cabal_backup
 	sed '/unix/d' GHCS.cabal_backup > GHCS.cabal
 
 GHCS:
