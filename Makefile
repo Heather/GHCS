@@ -3,7 +3,9 @@
 all:        clean | GHCS
 all_win32:  clean | linux
 
-win32: sed '/unix/d' GHCS.cabal | GHCS
+win32: sed | GHCS
+
+sed: sed '/unix/d' GHCS.cabal
 
 GHCS:
 	cabal install --only-dependencies
