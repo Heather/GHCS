@@ -1,6 +1,8 @@
 GHCS
 ====
 
+[![Build Status](https://travis-ci.org/Heather/GHCS.png?branch=master)](https://travis-ci.org/Heather/GHCS)
+
 Light thing to make shell scripting on haskell neat.
 
 originally came from StackOverflow with
