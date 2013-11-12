@@ -13,3 +13,4 @@ Executable    GHCS
       base
     , process
     , directory
+    , unix
