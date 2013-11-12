@@ -1,12 +1,13 @@
 .PHONY: all all_win32 clean win32 GHCS
 
 all:        clean | GHCS
-all_win32:  clean | linux
+all_win32:  clean | win32
 
-win32: sed | GHCS
+win32: dosed | GHCS
 
 dosed:
-	sed '/unix/d' GHCS.cabal
+    mv GHCS.cabal GHCS.cabal_backup
+	sed '/unix/d' GHCS.cabal_backup > GHCS.cabal
 
 GHCS:
 	cabal install --only-dependencies
