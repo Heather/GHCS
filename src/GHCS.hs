@@ -1,7 +1,8 @@
-﻿{-# LANGUAGE CPP #-}
+﻿{-# LANGUAGE CPP, MultiWayIf #-}
 
 import Control.Monad
 
+import System.Info (os)
 import System.Environment( getArgs )
 import System.Exit
 import System.Directory
@@ -14,23 +15,23 @@ import System.Posix.Process
 import System.Posix.Files
 
 getMTime f = getFileStatus f >>= return . modificationTime
+#else
+getMTime = getModificationTime
 #endif
 
 main = do
     scr : args <- getArgs
     let cscr = takeWhile (/= '.') scr
+            ++  if | os `elem` ["win32", "mingw32", "cygwin32"] -> ".exe"
+                   | otherwise -> ""
 
     scrExists <- doesFileExist scr
     cscrExists <- doesFileExist cscr
     compile <- if scrExists && cscrExists
                then do
-#if defined(mingw32_HOST_OS) || defined(__MINGW32__)
-                 return False
-#else
                  scrMTime <- getMTime scr
                  cscrMTime <- getMTime cscr
                  return $ cscrMTime <= scrMTime
-#endif
                else return True
 
     when compile $ do
