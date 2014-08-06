@@ -25,14 +25,14 @@ main = do
             ++  if | os `elem` ["win32", "mingw32", "cygwin32"] -> ".exe"
                    | otherwise -> ""
 
-    scrExists <- doesFileExist scr
+    scrExists  <- doesFileExist scr
     cscrExists <- doesFileExist cscr
     compile <- if scrExists && cscrExists
-               then do
-                 scrMTime <- getMTime scr
-                 cscrMTime <- getMTime cscr
-                 return $ cscrMTime <= scrMTime
-               else return True
+                   then do
+                     scrMTime  <- getMTime scr
+                     cscrMTime <- getMTime cscr
+                     return $ cscrMTime <= scrMTime
+                   else return True
 
     when compile $ do
          r <- system $ "ghc --make " ++ scr
@@ -41,7 +41,7 @@ main = do
                    hPutStrLn stderr $ "'ghc --make " ++ scr ++ "' failed: " ++ show i
                    exitFailure
            ExitSuccess -> return ()
-           
+
 #if defined(mingw32_HOST_OS) || defined(__MINGW32__)
     pid <- runCommand cscr
     waitForProcess pid >>= exitWith
