@@ -1,4 +1,4 @@
-﻿{-# LANGUAGE CPP, MultiWayIf #-}
+﻿{-# LANGUAGE CPP, MultiWayIf, LambdaCase #-}
 
 import Control.Monad
 
@@ -27,20 +27,18 @@ main = do
 
     scrExists  <- doesFileExist scr
     cscrExists <- doesFileExist cscr
-    compile <- if scrExists && cscrExists
+    compile    <- if scrExists && cscrExists
                    then do
                      scrMTime  <- getMTime scr
                      cscrMTime <- getMTime cscr
                      return $ cscrMTime <= scrMTime
                    else return True
 
-    when compile $ do
-         r <- system $ "ghc --make " ++ scr
-         case r of
-           ExitFailure i -> do
-                   hPutStrLn stderr $ "'ghc --make " ++ scr ++ "' failed: " ++ show i
-                   exitFailure
-           ExitSuccess -> return ()
+    when compile $ (system $ "ghc --make " ++ scr) 
+                   >>= \case ExitFailure i -> do
+                               hPutStrLn stderr $ "'ghc --make " ++ scr ++ "' failed: " ++ show i
+                               exitFailure
+                             ExitSuccess -> return ()
 
 #if defined(mingw32_HOST_OS) || defined(__MINGW32__)
     pid <- runCommand cscr
