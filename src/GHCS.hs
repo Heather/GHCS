@@ -1,4 +1,8 @@
-﻿{-# LANGUAGE CPP, MultiWayIf, LambdaCase #-}
+{-# LANGUAGE
+    CPP
+  , MultiWayIf
+  , LambdaCase
+  #-}
 
 import Control.Monad
 
@@ -14,7 +18,7 @@ import System.Process
 import System.Posix.Process
 import System.Posix.Files
 
-getMTime f = getFileStatus f >>= return . modificationTime
+getMTime f = liftM modificationTime (getFileStatus f)
 #else
 getMTime = getModificationTime
 #endif
@@ -34,7 +38,7 @@ main = do
                      return $ cscrMTime <= scrMTime
                    else return True
 
-    when compile $ (system $ "ghc --make " ++ scr) 
+    when compile $ system ("ghc --make " ++ scr)
                    >>= \case ExitFailure i -> do
                                hPutStrLn stderr $ "'ghc --make " ++ scr ++ "' failed: " ++ show i
                                exitFailure
